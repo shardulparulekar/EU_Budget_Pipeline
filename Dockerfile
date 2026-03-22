@@ -1,79 +1,39 @@
-# Dockerfile for EU Budget Anomaly Detection Pipeline
-# Base image: Python 3.10 with Java (required for PySpark)
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+RUN apt-get update && apt-get install -y python3.10 python3-pip openjdk-11-jdk && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-FROM python:3.10-slim
+RUN ln -s /usr/bin/python3 /usr/local/bin/python3
 
-# Metadata
-LABEL maintainer="EU Budget Pipeline"
-LABEL version="1.0"
-LABEL description="Reproducible environment for EU Budget Anomaly Detection Pipeline"
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    DEBIAN_FRONTEND=noninteractive
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    # Java (required for PySpark)
-    openjdk-17-jre-headless \
-    # Build tools
-    gcc \
-    g++ \
-    make \
-    # Utilities
-    curl \
-    wget \
-    git \
-    vim \
-    # For Excel processing
-    libxml2-dev \
-    libxslt1-dev \
-    zlib1g-dev \
-    # Cleanup
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set Java home
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
-# Set working directory
+ENV PYSPARK_PYTHON=/usr/bin/python3
+
+ENV PYSPARK_DRIVER_PYTHON=/usr/bin/python3
+
 WORKDIR /app
 
-# Copy requirements first (for Docker layer caching)
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN pip3 install --no-cache-dir --upgrade pip && pip3 install --no-cache-dir -r requirements.txt
 
-# Copy project files
 COPY EU_Budget_Pipeline_STANDALONE.py /app/
+
 COPY config/ /app/config/
+
 COPY run.sh /app/
 
-# ============================================================================
-# EMBED DATA IN DOCKER IMAGE
-# ============================================================================
-# Data file is included in the image - teacher doesn't need to provide it!
-# The Excel file will be baked into the Docker image
 COPY data/raw/eu_budget_spending_and_revenue_2000-2023.xlsx /app/data/raw/
 
-# Create necessary directories
-RUN mkdir -p /app/data/raw \
-    /app/data/processed \
-    /app/outputs \
-    /app/logs \
-    /app/config
+COPY data/raw/eu_budget_spending_and_revenue_2000-2022.xlsx /app/data/raw/
 
-# Set permissions
+RUN mkdir -p /app/data/processed /app/outputs /app/logs
+
 RUN chmod +x /app/run.sh
 
-# Expose volume for outputs (results will be written here)
 VOLUME ["/app/outputs"]
 
-# Default command - runs the pipeline
-CMD ["/app/run.sh"]
+CMD ["/bin/bash", "/app/run.sh"]
+
