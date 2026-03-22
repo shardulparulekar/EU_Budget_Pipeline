@@ -1,0 +1,39 @@
+# Python Dependencies for EU Budget Anomaly Detection Pipeline
+# File: requirements.txt
+# Usage: pip install -r requirements.txt
+
+# Core Data Processing
+openpyxl==3.1.5          # Excel file parsing
+pandas==2.3.1            # Data manipulation
+numpy==1.26.4            # Numerical operations
+
+# SQL Analytics
+duckdb==1.4.4            # In-process SQL OLAP database
+
+# Distributed Computing
+pyspark==3.5.0           # Distributed data processing
+pyarrow==14.0.1          # Apache Arrow for Spark
+
+# Machine Learning
+scikit-learn==1.7.1      # Machine learning algorithms
+scipy==1.11.4            # Scientific computing
+
+# Visualization
+matplotlib==3.8.2        # Plotting library
+seaborn==0.13.0          # Statistical visualization
+
+# Configuration
+configparser==6.0.0      # INI file parsing
+python-dotenv==1.0.0     # Environment variables
+
+# Utilities
+tqdm==4.66.1             # Progress bars
+tabulate==0.9.0          # Pretty-print tables
+colorama==0.4.6          # Colored terminal output
+
+# Testing (optional)
+pytest==7.4.3            # Testing framework
+pytest-cov==4.1.0        # Coverage reporting
+
+# Documentation (optional)
+markdown==3.5.1          # Markdown processing

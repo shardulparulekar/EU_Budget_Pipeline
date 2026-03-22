@@ -1,0 +1,45 @@
+# docker-compose.yml for EU Budget Pipeline
+version: '3.8'
+
+services:
+  eu-budget-pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: eu-budget-pipeline:latest
+    container_name: eu-budget-pipeline
+    
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SPARK_LOCAL_IP=127.0.0.1
+      - PYSPARK_PYTHON=/usr/local/bin/python3
+      - PYSPARK_DRIVER_PYTHON=/usr/local/bin/python3
+    
+    # Volume mounts
+    volumes:
+      # Outputs (only mount outputs - data is embedded in image!)
+      - ./outputs:/app/outputs
+      # Logs
+      - ./logs:/app/logs
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    
+    # Networking
+    networks:
+      - eu-budget-network
+    
+    # Command: Run the pipeline automatically
+    command: /app/run.sh
+
+networks:
+  eu-budget-network:
+    driver: bridge
