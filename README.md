@@ -211,7 +211,7 @@ ls -lh outputs/
 ## 📚 Documentation
 
 - **Feature Catalog:** `FEATURE_DEFINITIONS.md`
-- **Setup Guide:** `GITHUB_SETUP_GUIDE.md`
+- **Data procurement:** `README for Data files.md`
 - **Pipeline Code:** `EU_Budget_Pipeline_STANDALONE.py` (extensively commented)
 
 ---
@@ -219,7 +219,7 @@ ls -lh outputs/
 ## 📧 Contact
 
 **Project:** EU Budget Anomaly Detection Pipeline  
-**Course:** Executive MBA Big Data Infrastructures 2025-2026  
+**Course:** Executive MBA Big Data Infrastructures 2024-2026  
 **Repository:** https://github.com/shardulparulekar/EU_Budget_Pipeline
 
 ---
@@ -230,4 +230,4 @@ Academic project for educational purposes.
 
 ---
 
-**Built with ❤️ using CRISP-DM methodology**
+**Built with CRISP-DM methodology**
