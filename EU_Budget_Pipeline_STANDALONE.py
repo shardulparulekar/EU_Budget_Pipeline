@@ -3,7 +3,7 @@
 EU Budget Anomaly Detection Pipeline - Standalone Version
 ===========================================================
 
-Runs locally with Docker (no Databricks needed)
+Runs locally with Docker (no Databricks)
 Tech Stack: PySpark + DuckDB (hybrid architecture maintained)
 
 Data: Place Excel files in data/raw/ folder
@@ -50,7 +50,7 @@ print("Hybrid PySpark + DuckDB Architecture")
 print("="*70)
 
 # ============================================================================
-# CONFIGURATION - LOCAL FILE SYSTEM (replaces Unity Catalog)
+# CONFIGURATION - LOCAL FILE SYSTEM
 # ============================================================================
 
 # Base directories
@@ -89,7 +89,7 @@ else:
     print(f"  ✓ Main Excel file: {file_size_mb:.2f} MB")
 
 # ============================================================================
-# CREATE LOCAL SPARK SESSION (replaces Databricks pre-configured spark)
+# CREATE LOCAL SPARK SESSION
 # ============================================================================
 
 print("\nInitializing PySpark...")
@@ -460,7 +460,6 @@ audit_metrics['outliers'] = {
 
 # 4-8: Additional quality checks...
 # (Country coverage, heading dist, temporal dist, business rules, overall score)
-# [Including complete code from merged audit cell - abbreviated here for space]
 
 country_coverage = df_exp_spark.groupBy('country').agg(
     F.min('year').alias('first_year'),
